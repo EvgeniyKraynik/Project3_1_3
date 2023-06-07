@@ -1,8 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -31,13 +31,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
-    public User(String username, String name, String lastName, int age, String email, String password, Collection<Role> roles) {
+    public User(String username, String name, String lastName, int age, String email, String password, Set<Role> roles) {
         this.username = username;
         this.name = name;
         this.lastName = lastName;
@@ -98,11 +98,11 @@ public class User {
         this.password = password;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
