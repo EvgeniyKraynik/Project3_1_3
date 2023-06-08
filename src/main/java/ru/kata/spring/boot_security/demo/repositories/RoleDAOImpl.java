@@ -6,6 +6,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,5 +45,19 @@ public class RoleDAOImpl implements RoleDAO {
     public Set<Role> getAllRolesByUser(User user) {
         return entityManager.createQuery("from Role r join r.users u where u = :user", Role.class)
                 .setParameter("user", user).getResultStream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public Set<Role> getAllRolesByUserId(long id) {
+        return entityManager.createQuery("from Role r join r.users u where u.id = :id", Role.class)
+                .setParameter("id", id).getResultStream().collect(Collectors.toSet());
+    }
+
+    @Override
+    public List<Role> getRolesByIds(List<Long> ids) {
+        return entityManager
+                .createQuery("select r from Role r where r.id in :ids", Role.class)
+                .setParameter("ids", ids)
+                .getResultList();
     }
 }

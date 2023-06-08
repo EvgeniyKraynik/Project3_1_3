@@ -1,13 +1,16 @@
 package ru.kata.spring.boot_security.demo.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.models.Role;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleDAO;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional
 public class RoleServiceImpl implements RoleService {
 
     private final RoleDAO roleDAO;
@@ -44,5 +47,15 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public Set<Role> getAllRolesByUser(User user) {
         return roleDAO.getAllRolesByUser(user);
+    }
+
+    @Override
+    public Set<Role> getAllRolesByUserId(long id) {
+        return roleDAO.getAllRolesByUserId(id);
+    }
+
+    @Override
+    public List<Role> getRolesByIds(List<Long> ids) {
+        return roleDAO.getRolesByIds(ids);
     }
 }
